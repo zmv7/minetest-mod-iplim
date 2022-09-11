@@ -36,7 +36,6 @@ core.register_chatcommand("ipinfo",{
   privs = {server=true},
   params = "<playername>",
   func = function(name,param)
-    core.chat_send_all(dump(whitelist,''))
     local ip = get_ip(param)
     if ip then
         return true, "Accounts on "..param.."'s IP: "..list:get_string(ip)
@@ -62,4 +61,14 @@ core.register_chatcommand("iplim_wl",{
     else
         return false, "Invalid params"
     end
+end})
+
+core.register_chatcommand("iplim_clear",{
+  description = "Clear iplim database",
+  privs = {server=true},
+  func = function(name,param)
+    for ip,names in pairs(list:to_table().fields) do
+        list:set_string(ip,"")
+    end
+    return true, "iplim DB cleared"
 end})
